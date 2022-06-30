@@ -13,5 +13,11 @@ public class AppController {
 		
 		return "Login";
 	}
+
+	@RequestMapping("/header")
+	public String viewheaderPage() {
+		
+		return "header";
+	}
 	
 }
