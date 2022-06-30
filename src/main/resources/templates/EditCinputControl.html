@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SYPEX</title>
+    <link rel="stylesheet" th:href="@{/vendors/iconfonts/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+    <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.addons.css}">
+    <link rel="stylesheet" th:href="@{/css/Design.css}">
+    <link rel="shortcut icon" th:href="@{/images/NVP.png}" />
+</head>
+
+<body>
+<div class="container-scroller">
+
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+            <a class="navbar-brand brand-logo" th:href="@{#}">
+                <img th:src="@{/images/SYPEXL.png}" alt="logo" />
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <!--  <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+                <span class="navbar-toggler-icon"></span>
+            </button>-->
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown d-none d-xl-inline-block">
+                    <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                        <span class="profile-text">Bonjour, [[${#request.userPrincipal.principal.fullName}]] </span>
+                        <img class="img-xs rounded-circle" th:src="@{/images/faces/user.jpg}" alt="Profile image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                        <a class="dropdown-item mt-2" th:href="@{/UpdatePassword}">
+                            Changer mot de passe
+                        </a>
+                        <a class="dropdown-item" th:href="@{/logout}">
+                           <span class="glyphicon glyphicon-log-out"></span>Se déconnecter
+                        </a>
+                    </div>
+                </li>
+            </ul>
+              
+        </div>
+    </nav>
+
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <div class="nav-link">
+                        <div class="user-wrapper">
+                            <div class="profile-image">
+                                <img th:src="@{/images/faces/user.jpg}" alt="profile image">
+                            </div>
+                            <div class="text-wrapper">
+                                <p class="profile-name">[[${#request.userPrincipal.principal.fullName}]]</p>
+                                <div>
+                                    <small class="designation text-muted">[[${#request.userPrincipal.principal.getProfileName}]]</small>
+                                    <span class="status-indicator online"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <button class="btn btn-success btn-block">New Project
+                            <i class="mdi mdi-plus"></i>
+                        </button> -->
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/Welcome_Page}">
+                        <i class="menu-icon mdi mdi-television"></i>
+                        <span class="menu-title">Home</span>
+                    </a>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Administrateur' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-account"></i>
+                        <span class="menu-title"> Utilisateurs </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ruser}">Liste des Utilisateurs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/RuserProfile}">Liste des Utilisateurs Profiles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ruser/new}">Créer un Utilisateur</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/RuserProfile/new}">Créer un Utilisateur Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Cpnl" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-table"></i>
+                        <span class="menu-title"> Paramétrages PNL </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Cpnl">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSetting}">Liste des P PNL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSettingDetail}">Liste des P PNL detailés</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSetting/new}">Créer un P PNL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSettingDetail/new}">Créer un P PNL detailé</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Parametrage" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-tumblr-reblog"></i>
+                        <span class="menu-title"> Paramétrages </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Parametrage">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistsys}">Liste des P Systèmes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistcust}">Liste des P Clients</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CinputControl}">Liste des P Controles d'entrées</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ccurve }">Liste des P Courbes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistcust/new}">Créer un P client</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CinputControl/new}">Créer un P controle d'entrée</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistsys/new}">Créer un P système</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ccurve/new}">Créer un P courbes</a>
+                            </li>                           
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Device" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-coin"></i>
+                        <span class="menu-title"> Devise </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Device">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Rcurrency}">Liste des devises</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Rcurrency/new}">Créer un devise</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- partial -->
+        <div class="main-panel">
+        <div class="content-wrapper" layout:fragment="content">
+        <div class="col-12 grid-margin">                
+            <div class="card"><br>
+                            <h4 class="text-center"> Modifier un paramétrage controle d'entrée </h4>
+                <div class="card-body">
+                    <form class="form-sample" th:action="@{/CinputControl/save}" th:object="${cinputControl}" method="post" id="form">
+
+                        <div class="form-group row">
+                                        <input type="text" class="form-control text-center" th:field="*{id}" id="ID" readonly="readonly">
+                                </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="mid" class="col-sm-3 col-form-label text-center">menu</label>
+                                      <div class="col-sm-9">
+                                        <input type="text" th:field="*{menu}" id="mid" class="form-control" placeholder="Veuillez inserez l'id de menu"/>
+                                        <small></small>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Cd" class="col-sm-3 col-form-label text-center">Critère déposé</label>
+                                       <div class="col-sm-9">
+                                        <input type="text" th:field="*{Crfiled}" id="Cd" class="form-control" placeholder="Veuillez inserez le Critère déposé" />
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Vc" class="col-sm-3 col-form-label text-center">Valeur de critère</label>
+                                      <div class="col-sm-9">
+                                        <input type="text" th:field="*{Crvalue}" id="Vc" class="form-control" placeholder="Veuillez inserez la Valeur de critère" />
+                                        <small></small>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Did" class="col-sm-3 col-form-label text-center">Domaine</label>
+                                      <div class="col-sm-9">
+                                        <input type="text" th:field="*{Fid}" id="Did" class="form-control" placeholder="Veuillez inserez le Domaine id" />
+                                        <small></small>
+                                      </div>  
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="nd" class="col-sm-3 col-form-label text-center">Nom de domaine</label>
+                                       <div class="col-sm-9">
+                                        <input id="nd" class="form-control" type="text" th:field="*{Fname}" placeholder="Veuillez inserez le Nom de domaine" />
+                                        <small></small>
+                                       </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="lmin" class="col-sm-3 col-form-label text-center">limite min</label>
+                                      <div class="col-sm-9">
+                                        <input id="lmin" class="form-control" type="number" th:field="*{min}" placeholder="Veuillez inserez la limite min" />
+                                        <small></small>
+                                      </div>
+                                </div>
+                            </div>                       
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="lmax" class="col-sm-3 col-form-label text-center">limite max</label>
+                                      <div class="col-sm-9">
+                                        <input id="lmax" class="form-control" type="number" th:field="*{max}" placeholder="Veuillez inserez la limite max" />
+                                        <small></small>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Vd" class="col-sm-3 col-form-label text-center">Valeur par défaut</label>
+                                       <div class="col-sm-9">
+                                        <input id="Vd" class="form-control" type="text" th:field="*{Dvalue}" placeholder="Veuillez inserez la Valeur par défaut" />
+                                        <small></small>
+                                       </div>
+                                </div>
+                            </div>                       
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="tri" class="col-sm-3 col-form-label text-center">ordre</label>
+                                       <div class="col-sm-9">
+                                        <input id="tri" class="form-control" type="number" th:field="*{sorting}" placeholder="Veuillez inserez le tri" />
+                                        <small></small>
+                                       </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="val" class="col-sm-3 col-form-label text-center">valeur</label>
+                                       <div class="col-sm-9">
+                                        <input id="val" class="form-control" type="text" th:field="*{value}" placeholder="Veuillez inserez la valeur" />
+                                        <small></small>
+                                       </div>
+                                </div>
+                            </div>                       
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-center">type de données</label>
+                                       <div class="col-sm-9">
+                                        <select th:field="*{Cdata}" class="form-control" required>
+                                            <th:block th:each="cat :${listClistsys}">
+                                            <option th:text="${cat.Name}" th:value="${cat.id}"/>
+                                            </th:block>
+                                        </select>
+                                       </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-center">opérateur</label>
+                                       <div class="col-sm-9">
+                                        <select th:field="*{operator}" class="form-control" required>
+                                            <option th:value="'!='" th:text="different"></option>
+                   <option th:value="'='" th:text="egale"></option>
+                   <option th:value="'>='" th:text="superieur_ou_egale"></option>
+                   <option th:value="'<='" th:text="inferieur_ou_egale"></option>
+                   <option th:value="'>'" th:text="superieur"></option>
+                   <option th:value="'<'" th:text="inferieur"></option>
+                   <option th:value="'IN'" th:text="IN"></option>
+                   <option th:value="'N_IN'" th:text="N_IN"></option>
+
+                                        </select>
+                                       </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-center">type de valeur id</label>
+                                       <div class="col-sm-9">
+                                        <select th:field="*{Cvalue}" class="form-control" required>
+                                            <th:block th:each="cat :${listClistsys}">
+                                            <option th:text="${cat.Name}" th:value="${cat.id}"/>
+                                            </th:block>
+                                        </select>
+                                       </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                           <div class="col-md-6">                        
+                                    <div class="form-check">
+                                          <input type="checkbox" class="form-check-input" th:field="*{mandatory}" value="1" id="mandatory">
+                                          <label for="mandatory">Est obligatoire ?</label>
+                                   </div>
+                                </div>
+                                <div class="col-md-6">                        
+                                    <div class="form-check">
+                                          <input type="checkbox" class="form-check-input" th:field="*{system}" value="1" id="system">
+                                          <label for="system">Est un système ?</label>
+                                   </div>
+                                </div>
+                          </div>
+               <div class="text-center p-3">
+                    <input type="submit" class="btn btn-success mr-2" value="Valider">
+                                <button type="reset" class="btn btn-light">Annuler</button>                    
+              </div>
+                    </form>
+                </div>
+            </div>
+        </div>            </div></div></div>
+            <!-- content-wrapper ends -->
+
+
+
+
+
+
+
+
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center"> © 2022 </span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+
+
+    <!-- page-body-wrapper ends -->
+
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
+<script th:src="@{/vendors/js/vendor.bundle.addons.js}"></script>
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/misc.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        funApplicationDisabled();
+
+        funContactDisabled();
+
+        funProductDisabled();
+
+    });
+
+    function funApplicationDisabled() {
+        $('#app-input-service-id').prop('readOnly', true);
+        $('#app-input-name').prop('disabled', true);
+        $('#app-input-icon').prop('disabled', true);
+        $('#app-input-meta-desc').prop('disabled', true);
+        $('#app-input-meta-key').prop('disabled', true);
+        $('#app-input-meta-google-site').prop('disabled', true);
+        $('#app-btn-cancel').prop('disabled', true);
+        $('#app-btn-save').prop('disabled', true);
+        $('#app-btn-edit').prop('disabled', false);
+    }
+
+    function funContactDisabled() {
+        $('#contact-input-service-id').prop('readOnly', true);
+        $('#contact-name').prop('disabled', true);
+        $('#contact-phone').prop('disabled', true);
+        $('#contact-sms').prop('disabled', true);
+        $('#contact-hiMessage').prop('disabled', true);
+        $('#contact-address').prop('disabled', true);
+        $('#contact-email').prop('disabled', true);
+        $('#contact-btn-cancel').prop('disabled', true);
+        $('#contact-btn-save').prop('disabled', true);
+        $('#contact-btn-edit').prop('disabled', false);
+    }
+
+    function funProductDisabled() {
+        $('#product-input-uuid').prop('readOnly', true);
+        $('#product-input-name').prop('disabled', true);
+        $('#product-input-img-src').prop('disabled', true);
+        $('#product-input-img-alt').prop('disabled', true);
+        $('#product-input-href').prop('disabled', true);
+        $('#product-input-price').prop('disabled', true);
+        $('#product-input-brochure').prop('disabled', true);
+        $('#product-btn-cancel').prop('disabled', true);
+        $('#product-btn-save').prop('disabled', true);
+        $('#product-btn-edit').prop('disabled', false);
+    }
+
+    
+    const form = document.getElementById('form');
+
+
+    form.addEventListener('submit', e => {
+    	const MidValue = mid.value.trim();
+    	const CdValue = Cd.value.trim();
+    	const VcValue = Vc.value.trim();
+    	const DidValue = Did.value.trim();
+    	const NdValue = nd.value.trim();
+    	const LminValue = lmin.value.trim();
+    	const LmaxValue = lmax.value.trim();
+    	const VdValue = Vd.value.trim();
+    	const ValValue = val.value.trim();
+    	const TriValue = tri.value.trim();
+    	
+    	if( MidValue === '' || CdValue === '' || VcValue === ''|| DidValue === '' || NdValue === '' ||parseInt(lmin.value)<1 || parseInt(lmax.value)<1||VdValue === ''   ||parseInt(tri.value)<1 ||ValValue ==='' ){
+                e.preventDefault();
+            }
+    	if(MidValue === '') {
+    		setErrorFor(mid, 'veuillez remplir ce champ');
+    		mid.addEventListener('keyup',function(){
+                    if(mid.value.length !=""){
+                        setSuccessFor(mid);              
+                      }
+                })
+            }
+    	
+    	if(CdValue === '') {
+    		setErrorFor(Cd, 'veuillez remplir ce champ');
+    		Cd.addEventListener('keyup',function(){
+                    if(Cd.value.length >= 2){
+                        setSuccessFor(Cd);              
+                      }
+                })
+    		
+    	}
+    	
+    	if(VcValue === '') {
+    		setErrorFor(Vc, 'veuillez remplir ce champ');
+    		Vc.addEventListener('keyup',function(){
+                    if(Vc.value.length >= 2){
+                        setSuccessFor(Vc);              
+                      }
+                })
+    		
+    	}
+    	
+    	if(DidValue === '') {
+    		setErrorFor(Did, 'veuillez remplir ce champ');
+    		Did.addEventListener('keyup',function(){
+                    if(Did.value.length !=""){
+                        setSuccessFor(Did);              
+                      }
+                })
+            }
+    	
+    	if(NdValue === '') {
+    		setErrorFor(nd, 'veuillez remplir ce champ');
+    		nd.addEventListener('keyup',function(){
+                    if(nd.value.length >= 2){
+                        setSuccessFor(nd);              
+                      }
+                })
+    		
+    	}  	
+    	
+    	if(parseInt(lmin.value)<1) {
+    		setErrorFor(lmin, 'veuillez remplir ce champ');
+    		lmin.addEventListener('keyup',function(){
+                    if(parseInt(lmin.value)>0){
+                        setSuccessFor(lmin);              
+                      }
+                })
+            }
+    	    	
+    	if(parseInt(lmax.value)<1) {
+    		setErrorFor(lmax, 'veuillez remplir ce champ');
+    		lmax.addEventListener('keyup',function(){
+                    if(parseInt(lmax.value)>0){
+                        setSuccessFor(lmax);              
+                      }
+                })
+    		
+    	}    	
+    	
+    	if(VdValue === '') {
+    		setErrorFor(Vd, 'veuillez remplir ce champ');
+    		Vd.addEventListener('keyup',function(){
+                    if(Vd.value.length >= 2){
+                        setSuccessFor(Vd);              
+                      }
+                })
+    		
+    	}
+
+    	if(parseInt(tri.value)<1) {
+    		setErrorFor(tri, 'veuillez remplir ce champ');
+    		tri.addEventListener('keyup',function(){
+                    if(parseInt(tri.value)>0){
+                        setSuccessFor(tri);              
+                      }
+                })
+            }
+    	
+    	if(ValValue === '') {
+    		setErrorFor(val, 'veuillez remplir ce champ');
+    		val.addEventListener('keyup',function(){
+                    if(val.value.length !=""){
+                        setSuccessFor(val);              
+                      }
+                })
+            }
+    	
+    	
+    });
+
+    function setErrorFor(input, message) {
+    	const formControl = input.parentElement;
+    	const small = formControl.querySelector('small');
+    	formControl.className = 'form-group row error';
+    	small.innerText = message;
+    }
+
+    function setSuccessFor(input) {
+    	const formControl = input.parentElement;
+    	formControl.className = 'form-group row success';
+    }
+</script>
+
+
+</body>
+</html>

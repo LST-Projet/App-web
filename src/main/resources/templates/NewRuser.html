@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SYPEX</title>
+    <link rel="stylesheet" th:href="@{/vendors/iconfonts/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+    <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.addons.css}">
+    <link rel="stylesheet" th:href="@{/css/Design.css}">
+    <link rel="shortcut icon" th:href="@{/images/NVP.png}" />
+</head>
+
+<body>
+<div class="container-scroller">
+
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+            <a class="navbar-brand brand-logo" th:href="@{#}">
+                <img th:src="@{/images/SYPEXL.png}" alt="logo" />
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <!--  <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+                <span class="navbar-toggler-icon"></span>
+            </button>-->
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown d-none d-xl-inline-block">
+                    <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                        <span class="profile-text">Bonjour, [[${#request.userPrincipal.principal.fullName}]] </span>
+                        <img class="img-xs rounded-circle" th:src="@{/images/faces/user.jpg}" alt="Profile image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                        <a class="dropdown-item mt-2" th:href="@{/UpdatePassword}">
+                            Changer mot de passe
+                        </a>
+                        <a class="dropdown-item" th:href="@{/logout}">
+                           <span class="glyphicon glyphicon-log-out"></span>Se déconnecter
+                        </a>
+                    </div>
+                </li>
+            </ul>
+              
+        </div>
+    </nav>
+
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <div class="nav-link">
+                        <div class="user-wrapper">
+                            <div class="profile-image">
+                                <img th:src="@{/images/faces/user.jpg}" alt="profile image">
+                            </div>
+                            <div class="text-wrapper">
+                                <p class="profile-name">[[${#request.userPrincipal.principal.fullName}]]</p>
+                                <div>
+                                    <small class="designation text-muted">[[${#request.userPrincipal.principal.getProfileName}]]</small>
+                                    <span class="status-indicator online"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <button class="btn btn-success btn-block">New Project
+                            <i class="mdi mdi-plus"></i>
+                        </button> -->
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/Welcome_Page}">
+                        <i class="menu-icon mdi mdi-television"></i>
+                        <span class="menu-title">Home</span>
+                    </a>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Administrateur' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-account"></i>
+                        <span class="menu-title"> Utilisateurs </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ruser}">Liste des Utilisateurs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/RuserProfile}">Liste des Utilisateurs Profiles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ruser/new}">Créer un Utilisateur</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/RuserProfile/new}">Créer un Utilisateur Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Cpnl" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-table"></i>
+                        <span class="menu-title"> Paramétrages PNL </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Cpnl">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSetting}">Liste des P PNL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSettingDetail}">Liste des P PNL detailés</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSetting/new}">Créer un P PNL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSettingDetail/new}">Créer un P PNL detailé</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Parametrage" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-tumblr-reblog"></i>
+                        <span class="menu-title"> Paramétrages </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Parametrage">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistsys}">Liste des P Systèmes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistcust}">Liste des P Clients</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CinputControl}">Liste des P Controles d'entrées</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ccurve }">Liste des P Courbes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistcust/new}">Créer un P client</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CinputControl/new}">Créer un P controle d'entrée</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistsys/new}">Créer un P système</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ccurve/new}">Créer un P courbes</a>
+                            </li>                           
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Device" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-coin"></i>
+                        <span class="menu-title"> Devise </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Device">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Rcurrency}">Liste des devises</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Rcurrency/new}">Créer un devise</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- partial -->
+        <div class="main-panel">
+        <div class="content-wrapper" layout:fragment="content">
+        <div class="col-12 grid-margin">                
+            <div class="card">
+            <br>
+                            <h4 class="text-center"> Créer un Utilisateur </h4>
+                <div class="card-body">
+                    <form class="form-sample" th:action="@{/Ruser/save}" th:object="${ruser1}" method="post" id="form">                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="ucode" class="col-sm-3 col-form-label">Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{uCode}" id="ucode" class=" form-control" placeholder="Veuillez inserez le uCode"/>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="fname" class="col-sm-3 col-form-label">prénom</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{fname}" id="fname" class=" form-control" placeholder="Veuillez inserez le prénom"/>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="lname" class="col-sm-3 col-form-label">nom</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{lname}" id="lname" class=" form-control" placeholder="Veuillez inserez le nom"/>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="func" class="col-sm-3 col-form-label">fonction</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" th:field="*{function}" id="func"class=" form-control" placeholder="Veuillez inserez la fonction"/>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="password" class="col-sm-3 col-form-label">mot de passe</label>
+                                    <div class="col-sm-9">
+                                        <input id="password" class=" form-control" type="password" th:field="*{password}" placeholder="Veuillez inserez le mot de passe"/>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Dmdp" class="col-sm-3 col-form-label">Date du mot de passe</label>
+                                    <div class="col-sm-9">
+                                        <input id="Dmdp" class=" form-control" type="date" th:field="*{passwordDate}"  />
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Dg" class="col-sm-3 col-form-label">Date de grâce</label>
+                                    <div class="col-sm-9">
+                                        <input id="Dg" class=" form-control" type="date" th:field="*{graceDate}"  />
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="Profile" class="col-sm-3 col-form-label">utilisateur Profile</label>
+                                    <div class="col-sm-9">
+                                        <select th:field="*{ruserProfile}" class=" form-control" id="Profile" required>
+                                            <th:block th:each="cat :${listRuserProfile}">
+                                            <option th:text="${cat.name}" th:value="${cat.id}"/>
+                                            </th:block>
+                                        </select>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>
+                          
+                                    </div>
+                         <div class="row"> 
+                         <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="fattp" class="col-sm-3 col-form-label">Tentative infructueuse</label>
+                                    <div class="col-sm-9">
+                                        <input class=" form-control" id="fattp" type="number" th:field="*{failedAttempts}"  placeholder="Veuillez inserez le nombre des Tentatives"/>
+                                        <small></small>
+                                        </div>
+                                </div>
+                            </div>         
+                            
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">                        
+                                    <div class="form-check form-check-flat">                                        
+                                            <input type="checkbox" class="form-check-input" th:field="*{Enabled}" th:value="1" id="enable">
+                                            <label for="enable"> Est autorisé ?
+                                        </label>
+                                    </div></div>                        
+                             <div class="col-md-6">
+                                    <div class="form-check form-check-flat">
+                                        <label for="sinatory">
+                                            <input id="sinatory" type="checkbox" th:field="*{Signatory}" class="form-check-input">Est signataire ?
+                                        </label>
+                                    </div></div>
+                                    </div>
+
+               <div class="text-center p-3">
+                    <input type="submit" class="btn btn-success mr-2" value="Valider">
+                                <button type="reset" class="btn btn-light">Annuler</button>                    
+              </div>
+                    </form>
+                </div>
+            </div>
+        </div>            </div></div></div>
+            <!-- content-wrapper ends -->
+
+
+
+
+
+
+
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center"> © 2022 </span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+
+
+    <!-- page-body-wrapper ends -->
+
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
+<script th:src="@{/vendors/js/vendor.bundle.addons.js}"></script>
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/misc.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script type="text/javascript">
+
+const form = document.getElementById('form');
+
+ form.addEventListener('submit', e => {
+	const ucodeValue = ucode.value.trim();
+	const fnameValue = fname.value.trim();
+	const lnameValue = lname.value.trim();
+	const funcValue = func.value.trim();
+	const passwordValue = password.value.trim();
+	const DmdpValue = Dmdp.value.trim();
+	const DgValue = Dg.value.trim();
+	
+	if( ucodeValue === '' || fnameValue === ''|| lnameValue === ''|| funcValue === ''|| passwordValue === ''|| DmdpValue === ''|| DgValue === ''){
+            e.preventDefault();
+        }
+	
+	if(ucodeValue === '') {
+		setErrorFor(ucode, 'veuillez remplir ce champ');
+		ucode.addEventListener('keyup',function(){
+                if(ucode.value.length !=''){
+                    setSuccessFor(ucode);              
+                  }
+            })
+        }
+	
+	if(fnameValue === '') {
+		setErrorFor(fname, 'veuillez remplir ce champ');
+		fname.addEventListener('keyup',function(){
+                if(fname.value.length !=''){
+                    setSuccessFor(fname);              
+                  }
+            })
+        }
+	
+	if(lnameValue === '') {
+		setErrorFor(lname, 'veuillez remplir ce champ');
+		lname.addEventListener('keyup',function(){
+                if(lname.value.length !=''){
+                    setSuccessFor(lname);              
+                  }
+            })
+        }
+	
+	if(funcValue === '') {
+		setErrorFor(func, 'veuillez remplir ce champ');
+		func.addEventListener('keyup',function(){
+                if(func.value.length >= 2){
+                    setSuccessFor(func);              
+                  }
+            })
+		
+	}
+	if(passwordValue === '') {
+		setErrorFor(password, 'veuillez remplir ce champ');
+		password.addEventListener('keyup',function(){
+                if(password.value.length >= 2){
+                    setSuccessFor(password);              
+                  }
+            })
+		
+	}
+	if(DmdpValue === '') {
+		setErrorFor(Dmdp, 'veuillez remplir ce champ');
+		Dmdp.addEventListener('keyup',function(){
+                if(Dmdp !=null){
+                    setSuccessFor(Dmdp);              
+                  }
+            })
+        }
+	if(DgValue === '') {
+		setErrorFor(Dg, 'veuillez remplir ce champ');
+		Dg.addEventListener('keyup',function(){
+                if(Dg !=null){
+                    setSuccessFor(Dg);              
+                  }
+            })
+        }
+
+	
+});
+
+function setErrorFor(input, message) {
+	const formControl = input.parentElement;
+	const small = formControl.querySelector('small');
+	formControl.className = 'form-group row error';
+	small.innerText = message;
+}
+
+function setSuccessFor(input) {
+	const formControl = input.parentElement;
+	formControl.className = 'form-group row success';
+}
+
+</script>
+
+
+</body>
+</html>

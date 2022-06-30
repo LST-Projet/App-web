@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Sign up</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{/vendors/iconfonts/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="shortcut icon" th:href="@{/images/SYPEX2.png}" />
+<!--===============================================================================================-->
+<style type="text/css">
+.select-dropdown,
+.select-dropdown * {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+.select-dropdown {
+  position: relative;
+  background-color: #E6E6E6;
+  border-radius: 30px;
+}
+.select-dropdown select {
+  font-size: 1rem;
+  font-weight: normal;
+  max-width: 100%;
+  padding: 8px 24px 8px 10px;
+  border: none;
+  background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  appearance: none;
+}
+.select-dropdown select:active, .select-dropdown select:focus {
+  outline: none;
+  box-shadow: none;
+}
+.select-dropdown:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 0;
+  height: 0;
+  margin-top: -2px;
+  border-top: 5px solid #aaa;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;}
+  option{
+   background-color: #E6E6E6;
+  }
+</style>
+</head> 
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100"> 
+				<div class="login100-pic js-tilt" data-tilt>
+					<figure><img src="images/img-02.png" alt="IMG"></figure>
+				</div>
+				<div class="login100-pic js-tilt" data-tilt>			
+				</div>
+ 
+				<form class="login100-form validate-form" th:action="@{/process_register}" th:object="${user}" method="post">
+					<span class="login100-form-title">
+						<h1>Sign up</h1>
+					</span>				
+
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" th:field="*{uCode}" name="uCode" id ="uCode" placeholder="uCode" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="mdi mdi-gmail"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="password" th:field="*{password}" id="password" name="password" placeholder="Password" minlength="6" maxlength="10"required/>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="mdi mdi-lock"></i>
+						</span>
+					</div>
+					
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" th:field="*{fname}" name="fname" id ="fname" placeholder="First Name" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="mdi mdi-account"></i>
+						</span>
+					</div>
+					
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" th:field="*{lname}" name="lname" id ="lname" placeholder="Last Name" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="mdi mdi-account"></i>
+						</span>
+					</div>
+					
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" th:field="*{function}"  name="function" id ="uCode" placeholder="function" required>
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="mdi mdi-clipboard"></i>
+						</span>
+					</div>
+					
+					<div class="select-dropdown">
+                      <select th:field="*{ruserProfile}" class="form-control" required>                             
+                             <th:block th:each="cat :${listRuserProfile}">
+                             <option class="text-center" th:text="${cat.name}" th:value="${cat.id}"/>
+                             </th:block>    
+                     </select>
+                     <span class="focus-text-center"></span>
+                   </div>
+                                     
+                   
+					
+					<div class="container-login100-form-btn">
+						<button type="submit" name="login-submit" id="login-submit"
+						class="login100-form-btn">
+							Sign up
+						</button>
+					</div>
+					<br>
+					<div class="text-right" >
+						<a class="txt2" th:href="@{/login}">
+							I am already member
+							<i class="mdi mdi-trending-neutral"></i>
+						</a>
+					</div>
+					
+
+					
+					
+				</form>
+		</div>
+	</div>
+	
+	
+
+	
+
+</body>
+</html>

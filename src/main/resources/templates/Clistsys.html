@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SYPEX</title>
+    <link rel="stylesheet" th:href="@{/vendors/iconfonts/mdi/css/materialdesignicons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+    <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.addons.css}">
+    <link rel="stylesheet" th:href="@{/css/Design.css}">
+    <link rel="shortcut icon" th:href="@{/images/NVP.png}" />
+
+<style type="text/css">
+.btn-primary{
+background-color:#f73e1e;
+color:#fab469;
+border-color: #f73e1e;
+}
+.btn{
+color:#fab469;
+border-color:#fab469;
+}
+</style>
+
+</head>
+
+<body>
+<div class="container-scroller">
+
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+            <a class="navbar-brand brand-logo" th:href="@{#}">
+                <img th:src="@{/images/SYPEXL.png}" alt="logo" />
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <!--  <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+                <span class="navbar-toggler-icon"></span>
+            </button>-->
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown d-none d-xl-inline-block">
+                    <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                        <span class="profile-text">Bonjour, [[${#request.userPrincipal.principal.fullName}]] </span>
+                        <img class="img-xs rounded-circle" th:src="@{/images/faces/user.jpg}" alt="Profile image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                        <a class="dropdown-item mt-2" th:href="@{/UpdatePassword}">
+                            Changer mot de passe
+                        </a>
+                        <a class="dropdown-item" th:href="@{/logout}">
+                           <span class="glyphicon glyphicon-log-out"></span>Se déconnecter
+                        </a>
+                    </div>
+                </li>
+            </ul>
+              
+        </div>
+    </nav>
+
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <div class="nav-link">
+                        <div class="user-wrapper">
+                            <div class="profile-image">
+                                <img th:src="@{/images/faces/user.jpg}" alt="profile image">
+                            </div>
+                            <div class="text-wrapper">
+                                <p class="profile-name">[[${#request.userPrincipal.principal.fullName}]]</p>
+                                <div>
+                                    <small class="designation text-muted">[[${#request.userPrincipal.principal.getProfileName}]]</small>
+                                    <span class="status-indicator online"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <button class="btn btn-success btn-block">New Project
+                            <i class="mdi mdi-plus"></i>
+                        </button> -->
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/Welcome_Page}">
+                        <i class="menu-icon mdi mdi-television"></i>
+                        <span class="menu-title">Home</span>
+                    </a>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Administrateur' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-account"></i>
+                        <span class="menu-title"> Utilisateurs </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ruser}">Liste des Utilisateurs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/RuserProfile}">Liste des Utilisateurs Profiles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ruser/new}">Créer un Utilisateur</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/RuserProfile/new}">Créer un Utilisateur Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Cpnl" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-table"></i>
+                        <span class="menu-title"> Paramétrages PNL </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Cpnl">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSetting}">Liste des P PNL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSettingDetail}">Liste des P PNL detailés</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSetting/new}">Créer un P PNL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CpnlSettingDetail/new}">Créer un P PNL detailé</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Parametrage" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-tumblr-reblog"></i>
+                        <span class="menu-title"> Paramétrages </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Parametrage">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistsys}">Liste des P Systèmes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistcust}">Liste des P Clients</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CinputControl}">Liste des P Controles d'entrées</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ccurve }">Liste des P Courbes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistcust/new}">Créer un P client</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/CinputControl/new}">Créer un P controle d'entrée</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Clistsys/new}">Créer un P système</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Ccurve/new}">Créer un P courbes</a>
+                            </li>                           
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${#request.userPrincipal.principal.getProfileName} eq'Gérant' OR ${#request.userPrincipal.principal.getProfileName} eq 'Utilisateur risque'" class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Device" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-coin"></i>
+                        <span class="menu-title"> Devise </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Device">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Rcurrency}">Liste des devises</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/Rcurrency/new}">Créer un devise</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- content-wrapper -->
+        
+        <div class="main-panel">
+            <div class="content-wrapper" layout:fragment="content">
+                <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center">Liste des Paramétrages système</h2>
+       <div class="container"> 
+       <div th:if="${session.message}" class="container"> 
+        <div th:classappend="${'alert-'+session.message.type}" class="alert alert-success text-center" role="alert"><span th:text="${session.message.content}"></span></div> 
+           <th:block th:text="${#session.removeAttribute('message')}"></th:block>                      
+            </div> 
+                            
+               <form id="formS" th:action="@{Clistsys}" method="get">
+                <input id="inputSr" type="text" class="form-control" name="motCle" th:value="${motCle}" placeholder="Search...">
+                <button id="buttonSr" type="submit">Search</button>
+              </form>
+           </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                             <thead>
+                         <tr>
+                             <th>ID</th>
+                             <th>Nom</th>
+                             <th>type liste</th>
+                             <th>visible</th>
+                             <th>ordre</th>
+                             <th>Actions</th>                                                       
+                         </tr>
+                     </thead>
+                     <tbody><tr th:each="clistsys : ${PageClistsys.content}">
+                              <td>[[${clistsys.id}]]</td>
+                              <td>[[${clistsys.Name}]]</td>
+                              <td>[[${clistsys.listname}]]</td>
+                              <td>[[${clistsys.visible}]]</td>
+                              <td>[[${clistsys.sorting}]]</td>
+                              <td> <a th:href="@{'/Clistsys/edit/' + ${clistsys.id}}"><img src="../../images/faces-clipart/edit.png" alt="image" /></a>
+                                   &nbsp;&nbsp;&nbsp;
+                                   <a th:href="@{'/Clistsys/delete/' + ${clistsys.id}}"><img src="../../images/faces-clipart/delete1.png" alt="image" /></a></td>
+                         </tr>
+                              
+                                                                                                                       </tbody>                       
+                       </table>
+                    </div>
+                </div>
+                <div class="container">
+                  <ul class="nav nav-pills" >
+                    <li th:each="page,status:${pages}" >
+                    <a id="boutonP" th:class="${status.index==currentPage}?'btn btn-primary':'btn'" 
+                    th:href="@{Clistsys(page=${status.index}, size=${size}, motCle=${motCle})}" 
+                    th:text="${status.index}"></a></li>
+                  </ul>
+                  </div>
+            </div>
+        </div>
+            </div>
+            
+            <!-- content-wrapper ends -->
+
+
+
+
+
+
+
+
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center"> © 2022  SYPEX</span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+
+    </div>
+
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
+<script th:src="@{/vendors/js/vendor.bundle.addons.js}"></script>
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/misc.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        funApplicationDisabled();
+
+        funContactDisabled();
+
+        funProductDisabled();
+
+    });
+
+    function funApplicationDisabled() {
+        $('#app-input-service-id').prop('readOnly', true);
+        $('#app-input-name').prop('disabled', true);
+        $('#app-input-icon').prop('disabled', true);
+        $('#app-input-meta-desc').prop('disabled', true);
+        $('#app-input-meta-key').prop('disabled', true);
+        $('#app-input-meta-google-site').prop('disabled', true);
+        $('#app-btn-cancel').prop('disabled', true);
+        $('#app-btn-save').prop('disabled', true);
+        $('#app-btn-edit').prop('disabled', false);
+    }
+
+    function funContactDisabled() {
+        $('#contact-input-service-id').prop('readOnly', true);
+        $('#contact-name').prop('disabled', true);
+        $('#contact-phone').prop('disabled', true);
+        $('#contact-sms').prop('disabled', true);
+        $('#contact-hiMessage').prop('disabled', true);
+        $('#contact-address').prop('disabled', true);
+        $('#contact-email').prop('disabled', true);
+        $('#contact-btn-cancel').prop('disabled', true);
+        $('#contact-btn-save').prop('disabled', true);
+        $('#contact-btn-edit').prop('disabled', false);
+    }
+
+    function funProductDisabled() {
+        $('#product-input-uuid').prop('readOnly', true);
+        $('#product-input-name').prop('disabled', true);
+        $('#product-input-img-src').prop('disabled', true);
+        $('#product-input-img-alt').prop('disabled', true);
+        $('#product-input-href').prop('disabled', true);
+        $('#product-input-price').prop('disabled', true);
+        $('#product-input-brochure').prop('disabled', true);
+        $('#product-btn-cancel').prop('disabled', true);
+        $('#product-btn-save').prop('disabled', true);
+        $('#product-btn-edit').prop('disabled', false);
+    }
+
+</script>
+
+
+</body>
+</html>
